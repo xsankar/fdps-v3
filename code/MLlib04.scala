@@ -26,11 +26,11 @@ object MLlib04 {
     val sc = new SparkContext("local","Chapter 8")
     println(s"Running Spark Version ${sc.version}")
     //
-    val moviesFile = sc.textFile("/Users/ksankar/fdps-vii/data/medium/movies.dat")
+    val moviesFile = sc.textFile("/Volumes/sdxc-01/fdps-vii/data/medium/movies.dat")
     val moviesRDD = moviesFile.map(line => line.split("::"))
     println(moviesRDD.count())
     //
-    val ratingsFile = sc.textFile("/Users/ksankar/fdps-vii/data/medium/ratings.dat")
+    val ratingsFile = sc.textFile("/Volumes/sdxc-01/fdps-vii/data/medium/ratings.dat")
     val ratingsRDD = ratingsFile.map(line => parseRating1(line))
     println(ratingsRDD.count())
     //
@@ -97,5 +97,13 @@ object MLlib04 {
     println("MSE = %2.5f".format(mse))
     println("RMSE = %2.5f".format(rmse))
     println("** Done **")
+    // 1.3.0 (2/18/15)
+    // *** Model Performance Metrics ***
+    // MSE = 0.87495
+    // RMSE = 0.93539
+    // 1.4.0 RC2 (5/24/15)
+    // *** Model Performance Metrics ***
+    // MSE = 0.87185
+    // RMSE = 0.93373
   }
 }

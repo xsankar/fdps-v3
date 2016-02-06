@@ -15,7 +15,7 @@ public class LDSV03 {
     SparkConf conf = new SparkConf().setAppName("Chapter 05").setMaster("local");
     JavaSparkContext ctx = new JavaSparkContext(conf);
     System.out.println("Running Spark Version : " +ctx.version());
-    ctx.addFile("/Users/ksankar/fdps-vii/data/Line_of_numbers.csv");
+    ctx.addFile("/Volumes/sdxc-01/fdps-vii/data/Line_of_numbers.csv");
     //
     JavaRDD<String> lines = ctx.textFile(SparkFiles.get("Line_of_numbers.csv"));
     //

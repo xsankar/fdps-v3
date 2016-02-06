@@ -1,6 +1,6 @@
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._ // for implicit conversations
-import org.apache.spark.sql._
+//import org.apache.spark.sql._
 
 object SQL01 {
   // register case class external to main
@@ -15,10 +15,13 @@ object SQL01 {
     println(s"Running Spark Version ${sc.version}")
     //
     val sqlContext = new org.apache.spark.sql.SQLContext(sc)
-    import sqlContext.createSchemaRDD // to implicitly convert an RDD to a SchemaRDD.
-    import sqlContext._
+    //import sqlContext.createSchemaRDD // to implicitly convert an RDD to a SchemaRDD.
+    import sqlContext.implicits._
+    //import sqlContext._
+    //import sqlContext.createDataFrame
+    //import sqlContext.createExternalTable
     //
-    val employeeFile = sc.textFile("/Users/ksankar/fdps-vii/data/NW-Employees-NoHdr.csv")
+    val employeeFile = sc.textFile("/Volumes/sdxc-01/fdps-vii/data/NW-Employees-NoHdr.csv")
     println("Employee File has %d Lines.".format(employeeFile.count()))
     val employees = employeeFile.map(_.split(",")).
       map(e => Employee( e(0).trim.toInt,
@@ -26,10 +29,11 @@ object SQL01 {
         e(4), e(5), 
         e(6), e(7), e(8), e(9), e(10)))
      println(employees.count)
-     employees.registerTempTable("Employees")
+     employees.toDF().registerTempTable("Employees")
      var result = sqlContext.sql("SELECT * from Employees")
      result.foreach(println)
      result = sqlContext.sql("SELECT * from Employees WHERE State = 'WA'")
      result.foreach(println)
+     System.out.println("** Done **")
   }
 }

@@ -49,7 +49,7 @@ object MLlib02 {
     val sc = new SparkContext("local","Chapter 8")
     println(s"Running Spark Version ${sc.version}")
     //
-    val dataFile = sc.textFile("/Users/ksankar/fdps-vii/data/titanic3_01.csv")
+    val dataFile = sc.textFile("/Volumes/sdxc-01/fdps-vii/data/titanic3_01.csv")
     val titanicRDDLP = dataFile.map(_.trim).filter( _.length > 1).
       map(line => parsePassengerDataToLP(line))
     //
@@ -79,12 +79,14 @@ object MLlib02 {
        reduce(_+_) / labelsAndPreds.count()
     println("Mean Squared Error = " + "%6f".format(mse))
     //
+    // Mean Squared Error = 0.190222
+    //
     // labelsAndPreds.foreach(println)
     //
     val correctVals = labelsAndPreds.aggregate(0.0)((x, rec) => x + (rec._1 == rec._2).compare(false), _ + _)
     val accuracy = correctVals/labelsAndPreds.count()
     println("Accuracy = " + "%3.2f%%".format(accuracy*100))
-    //
+    // Accuracy = 80.98%
     println("*** Done ***")
   }
 }

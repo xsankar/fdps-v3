@@ -15,7 +15,7 @@ object MLlib03 {
     val sc = new SparkContext("local","Chapter 8")
     println(s"Running Spark Version ${sc.version}")
     //
-    val dataFile = sc.textFile("/Users/ksankar/fdps-vii/data/cluster-points.csv")
+    val dataFile = sc.textFile("/Volumes/sdxc-01/fdps-vii/data/cluster-points.csv")
     val points = dataFile.map(_.trim).filter( _.length > 1).map(line => parsePoints(line))
     //
     println(points.count())
@@ -31,7 +31,7 @@ object MLlib03 {
     //
     clusterMap.foreach(println)
     //
-    clusterMap.saveAsTextFile("/Users/ksankar/fdps-vii/data/3x-cluster.csv")
+    clusterMap.saveAsTextFile("/Users/ksankar/fdps-vii/data/3xx-cluster.csv")
     //
     // Now let us try 4 centers
     //
@@ -39,7 +39,7 @@ object MLlib03 {
     mdlKMeans = KMeans.train(points, numClusters, numIterations)
     clusterPred = points.map(x=>mdlKMeans.predict(x))
     clusterMap = points.zip(clusterPred)
-    clusterMap.saveAsTextFile("/Users/ksankar/fdps-vii/data/5x-cluster.csv")
+    clusterMap.saveAsTextFile("/Users/ksankar/fdps-vii/data/5xx-cluster.csv")
     clusterMap.foreach(println)
   }
 }

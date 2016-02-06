@@ -44,7 +44,7 @@ object MLlib01 {
 		val sc = new SparkContext(conf) // ("local","Chapter 9") if using directly
 		println(s"Running Spark Version ${sc.version}")
 		//
-		val dataFile = sc.textFile("/Users/ksankar/fdps-vii/data/car-milage-no-hdr.csv")
+		val dataFile = sc.textFile("/Volumes/sdxc-01/fdps-vii/data/car-milage-no-hdr.csv")
 		val carRDD = dataFile.map(line => parseCarData(line))
 		//
 		// Let us find summary statistics
@@ -103,6 +103,13 @@ object MLlib01 {
 		reduce(_+_) / valuesAndPreds.count()
 		println("Mean Squared Error      = " + "%6.3f".format(mse))
     println("Root Mean Squared Error = " + "%6.3f".format(math.sqrt(mse)))
+    //
+    //Mean Squared Error      = 105.858
+    //Root Mean Squared Error = 10.289
+    //
+    // Spark 1.6.0 12/17/15
+    // Mean Squared Error      = 221.828
+    // Root Mean Squared Error = 14.894
 		// Let us print what the model predicted
 		valuesAndPreds.take(20).foreach(m => println("%5.1f | %5.1f |".format(m._1,m._2)))
 	}

@@ -1,4 +1,4 @@
-import org.apache.spark.SparkContext
+/*import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._ // for implicit conversations
 import org.apache.spark.sql._
 import org.apache.hadoop.hbase.client.HBaseAdmin
@@ -8,9 +8,9 @@ import org.apache.hadoop.hbase.mapred.TableOutputFormat
 import org.apache.hadoop.hbase.util.Bytes
 import org.apache.hadoop.hbase.client.Put
 import org.apache.hadoop.mapred.JobConf
-import org.apache.spark.rdd.PairRDDFunctions
+import org.apache.spark.rdd.PairRDDFunctions */
 
-object BigData02 {
+object BigData02 { /*
 	def main(args: Array[String]): Unit = {
 			val sc = new SparkContext("local","Chapter 8")
 			println(s"Running Spark Version ${sc.version}")
@@ -61,5 +61,5 @@ object BigData02 {
       println("Balancer On : " + status.getBalancerOn())
       println("Cluster ID : "+ status.getClusterId())
       println("Server Info : " + status.getServerInfo())
-	}
+	} */
 }

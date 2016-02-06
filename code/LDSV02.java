@@ -8,7 +8,7 @@ public class LDSV02 {
     SparkConf conf = new SparkConf().setAppName("Chapter 05").setMaster("local");
     JavaSparkContext ctx = new JavaSparkContext(conf);
     System.out.println("Running Spark Version : " +ctx.version());
-    ctx.addFile("/Users/ksankar/fdps-vii/data/spam.data");
+    ctx.addFile("/Volumes/sdxc-01/fdps-vii/data/spam.data");
     JavaRDD<String> lines = ctx.textFile(SparkFiles.get("spam.data"));
     System.out.println(lines.first());
   }
