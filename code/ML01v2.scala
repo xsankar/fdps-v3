@@ -29,7 +29,7 @@ object ML01v2 {
 		//
 		// Let us find summary statistics
 		//
-    cars.describe().show()
+    cars.describe("mpg","hp","weight","automatic").show()
 		//
 		// correlations
 		//

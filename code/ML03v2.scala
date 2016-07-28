@@ -44,7 +44,7 @@ object ML03v2 {
     println("Cluster Sizes (K=2) : " +  mdlKMeans.summary.clusterSizes.mkString("<", ",", ">"))
     //
     var predictions = mdlKMeans.transform(data1)
-    predictions.show(30)
+    predictions.show(3)
     //
     predictions.write.mode("overwrite").option("header","true").csv(filePath + "data/cluster-2K.csv")
     //
@@ -61,7 +61,7 @@ object ML03v2 {
     println("Cluster Sizes (K=4) : " +  mdlKMeans.summary.clusterSizes.mkString("<", ",", ">"))
     //
     predictions = mdlKMeans.transform(data1)
-    predictions.show(30)
+    predictions.show(3)
     //
     predictions.write.mode("overwrite").option("header","true").csv(filePath + "data/cluster-4K.csv")
     //

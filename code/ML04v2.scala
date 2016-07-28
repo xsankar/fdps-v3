@@ -6,7 +6,7 @@ import org.apache.spark.ml.recommendation.ALS
 import org.apache.spark.ml.evaluation.RegressionEvaluator
 import org.apache.log4j.{Level, Logger}
 
-object ML04v2 {
+object ML04v2 extends Serializable {
   //
 	def getCurrentDirectory = new java.io.File( "." ).getCanonicalPath
   //
@@ -37,12 +37,12 @@ object ML04v2 {
 		//
 		val filePath = "/Users/ksankar/fdps-v3/"
 		val movies = spark.read.text(filePath + "data/medium/movies.dat")
-		movies.show(truncate=false)
+		movies.show(5,truncate=false)
     movies.printSchema()
 		val ratings = spark.read.text(filePath + "data/medium/ratings.dat")
-		ratings.show(truncate=false)
+		ratings.show(5,truncate=false)
 		val users = spark.read.text(filePath + "data/medium/users.dat")
-		users.show(truncate=false)
+		users.show(5,truncate=false)
 		//
     println("Got %d ratings from %d users on %d movies.".format(ratings.count(), users.count(), movies.count()))
     //
@@ -50,12 +50,12 @@ object ML04v2 {
     // This is a kludge. Let me know if there is a better way
     //
     val ratings1 = ratings.select(split(ratings("value"),"::")).as("values")
-    ratings1.show()
+    ratings1.show(5)
     val ratings2 = ratings1.rdd.map(row => parseRating(row))
     ratings2.take(3).foreach(println)
     //
     val ratings3 = spark.createDataFrame(ratings2)
-    ratings3.show()
+    ratings3.show(5)
     //
     // split data
     //
@@ -66,18 +66,27 @@ object ML04v2 {
     //
     val algALS = new ALS()
     algALS.setItemCol("product") // Otherwise will get exception "Field "item" does not exist"
+    algALS.setRank(12)
+    algALS.setRegParam(0.1) // was regularization parameter, was lambda in MLlib
+    algALS.setMaxIter(20)
     val mdlReco = algALS.fit(train)
      //
 		// Now let us use the model to predict our test set
 		//
     val predictions = mdlReco.transform(test)
-    predictions.show()
+    predictions.show(5)
     predictions.printSchema()
     //
-    // some of the recommendation is NaN. So filter them out before calculating MSE et al
+    // some of the recommendation is NaN. 
+    // Running into https://issues.apache.org/jira/browse/SPARK-14489 = cold Start
+    // So filter them out before calculating MSE et al
+    // Test Code to find the NaN. Not used
+    /*
     val nanState = predictions.na.fill(99999.0)
     println(nanState.filter(nanState("prediction") > 99998).count())
-    nanState.filter(nanState("prediction") > 99998).show()
+    nanState.filter(nanState("prediction") > 99998).show(5)
+    * 
+    */
     //
     val pred = predictions.na.drop()
     println("Orig = "+predictions.count()+" Final = "+ pred.count() + " Dropped = "+ (predictions.count() - pred.count()))
