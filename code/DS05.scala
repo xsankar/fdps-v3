@@ -1,5 +1,5 @@
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.{log,log10,sqrt,hypot}
+import org.apache.spark.sql.functions.{log,log10,log1p,sqrt,hypot}
 
 
 object DS05 {
@@ -22,17 +22,23 @@ object DS05 {
 		//
 		val startTime = System.nanoTime()
 		//
-		val aList : List[Int] = List(10,100,1000)
+		var aList : List[Int] = List(10,100,1000)
 		var aRDD = spark.sparkContext.parallelize(aList)
 		val sqlContext = spark.sqlContext
     import sqlContext.implicits._
-    val ds = spark.createDataset(aRDD)
+    var ds = spark.createDataset(aRDD)
     ds.show()
     //
     ds.select( ds("value"), log(ds("value")).as("ln")).show()
     ds.select( ds("value"), log10(ds("value")).as("log10")).show()
     ds.select( ds("value"), sqrt(ds("value")).as("sqrt")).show()
     //
+		aList = List(0,10,100,1000)
+		aRDD = spark.sparkContext.parallelize(aList)
+    ds = spark.createDataset(aRDD)
+    ds.select( ds("value"), log(ds("value")).as("ln")).show()
+    ds.select( ds("value"), log1p(ds("value")).as("ln1p")).show()
+    
 		val filePath = "/Users/ksankar/fdps-v3/"
 		val data = spark.read.option("header","true").
 		  option("inferSchema","true").

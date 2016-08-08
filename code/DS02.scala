@@ -29,10 +29,11 @@ object DS02 {
     //
     cars.describe("mpg","hp","weight","automatic").show()
     //
-    cars.groupBy("automatic").avg("mpg","torque").show()
+    cars.groupBy("automatic").avg("mpg","torque","hp","weight").show()
     //
    cars.groupBy().avg("mpg","torque").show()
-   cars.agg( avg(cars("mpg")), mean(cars("torque")) ).show()   
+   cars.agg( avg(cars("mpg")), mean(cars("torque")) ).show() 
+   //
     //
     val elapsedTime = (System.nanoTime() - startTime) / 1e9
     println("Elapsed time: %.2f seconds".format(elapsedTime))
