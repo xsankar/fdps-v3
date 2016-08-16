@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.spark.SparkConf;
@@ -31,7 +32,7 @@ public class LDSV03 {
     }
     //
     JavaRDD<String> strFlatRDD = lines.flatMap(new FlatMapFunction<String,String>() {
-      public Iterable<String> call(String line) {return Arrays.asList(line.split(","));}
+      public Iterator<String> call(String line) {return Arrays.asList(line.split(",")).iterator();}
     });
     List<String> val1 = strFlatRDD.collect();
     for (String s : val1) {
